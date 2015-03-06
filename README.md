@@ -1,6 +1,6 @@
 About
 -----
-Point kinetics reacotr model with GUI frontend.
+Point kinetics reactor model with GUI frontend.
 
 Interfaces with an Arduino (optional).
 
