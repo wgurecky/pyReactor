@@ -8,7 +8,7 @@ For use as a reactor demo to K-12 students.  This package was developed to infor
 To this end, a Lego (R) reactor was constructed for use with the Arduino code.  Control rod movement and reactor power visual
 feedbacks are presented to the audience via servo and LED control respectively.
 
-![screenshot](http://github.com/wgurecky/pyReactor.git/master/simulator_screenshot.png)
+![screenshot](http://github.com/wgurecky/pyReactor/blob/master/simulator_screenshot.png)
 
 Install
 -------
