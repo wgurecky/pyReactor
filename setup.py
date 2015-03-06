@@ -9,7 +9,7 @@ setup(
     version = "0.1",
     packages = find_packages(),
     #scripts = ['main.py'],
-    install_requires = ['numpy>=1.7.0', 'scipy>=0.12.0', 'matplotlib>=1.2.1'],
+    install_requires = ['numpy>=1.7.0', 'scipy>=0.12.0', 'matplotlib>=1.2.1', 'pyserial'],
     package_data = { '': ['*.txt'] },
     author = 'William Gurecky',
     license = "BSD",

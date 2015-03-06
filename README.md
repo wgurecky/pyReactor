@@ -11,12 +11,12 @@ feedbacks are presented to the audience via servo and LED control respectively.
 Install
 -------
 
-To install ::
+To install:
 
     python setup.py develop
 
 
-requires ::
+Requires
    
     python2.7
     numpy
