@@ -220,12 +220,21 @@ def initSerial():
         # regardless of OS
         try:
             if _platform == "linux" or _platform == "linux2":
+                print("Try /dev/ttyACM" + str(i) + "  :9600")
                 ser = serial.Serial('/dev/ttyACM' + str(i), 9600)
+                print("...done. /dev/ttyACM" + str(i) + "  :9600")
             elif _platform == "windows" or _platform == "win32" or _platform == "win64":
                 ser = serial.Serial('COM' + str(i), 9600)
-            ser.write("r" + str(5))
-            time.sleep(1)
-            ser.write("p" + str(0))
+            time.sleep(3)
+            print("Attempting handshake with arduino attempt number: " + str(i + 1) + "...")
+            #ser.write("r" + str(5))
+            # print("Attempting to establish connection with arduino attempt number: " + str(i))
+            # Perform handshake with arduino.  Ensure we don't connect to a
+            # camera or some other BS
+            #if not ser.read() or ser.baudrate != 9600:
+            #    print("Attempted connection on COM port" + str(i) + " not successful")
+            #    raise Exception('Failed Connection')
+            #ser.write("p" + str(0))
         except:
             ser = None
         if ser:

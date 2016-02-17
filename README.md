@@ -1,14 +1,18 @@
 About
 -----
-Point kinetics reactor model with GUI frontend.
+Point kinetic reactor model with GUI frontend.
 
-Interfaces with an Arduino (optional).
+![screenshot](https://github.com/wgurecky/pyReactor/blob/master/simulator_screenshot.png)
 
-For use as a reactor demo to K-12 students.  This package was developed to inform young students about nuclear engineering.
+Interfaces with an Arduino driven Lego model (optional).
+
+![image](https://github.com/wgurecky/pyReactor/blob/master/lego_photo_sm.png)
+
+For use as a reactor demo for K-12 students.  This package was developed to inform young students about nuclear engineering.
 To this end, a Lego (R) reactor was constructed for use with the Arduino code.  Control rod movement and reactor power visual
 feedbacks are presented to the audience via servo and LED control respectively.
 
-![screenshot](https://github.com/wgurecky/pyReactor/blob/master/simulator_screenshot.png)
+
 
 Install
 -------
@@ -31,12 +35,16 @@ Requires
 Usage
 -----
 
-Reactor may be used in power control mode, in which the reactor will attempt to maintain the user set power.
+The main ractor gui program is lauched using the command::
+
+    pyReactor
+
+The reactor may be used in power control mode, in which the reactor will attempt to maintain the user set power.
 In standard control rod based mode (pwr control toggle unchecked), the rod position may be set with a vertical slider.
 The rods move at a set, relaively slow pace.  The rod height is visualized by a vertical bar plot.
 
 Temperature is plotted as a dimensionless distance to the SCRAM value.  This is done to display both the fuel and moderator
-temperature on the plot.
+temperature on the same plot.
 
 The scram button will generate a SCRAM event.  To unlock the reactor after a SCRAM, click the SCRAM button again.
 
