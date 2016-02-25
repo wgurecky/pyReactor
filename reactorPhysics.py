@@ -19,8 +19,9 @@ hc = 1.    # W/cm^2 * K avg heat transfer coeff between fuel and water
 Ac = 4.e5  # cm^2  fuel to coolant contact area
 Tin = 450.  # K coolant inlet temperature
 
-alphaT = -3. * 1.e-5 / beta  # pcm / K / beta  reactivity per kelvin
+alphaT = -0.007 * 1.e-5 / beta  # pcm / K / beta  reactivity per kelvin
 
+# Define all terms in list S[]
 
 def dndt(S, t, reactivity):
     """
@@ -36,8 +37,13 @@ def dndt(S, t, reactivity):
 def dCdt(S, t):
     """
     Time derivative of delayed neutron precursor population.
+    Units of first term:
+        (beta[unitless] / Lambda [s]) * [#/cm^3] * 4factorSurvival = [#/cm^3-s]
+    Units of second term:
+        lamb [1/s] * [#/cm^3] = [#/cm^3 -s]
     """
-    Sdot = (beta / Lamb) * S[0] - lamb * S[1]
+    lifetimeCorrection = 0.6
+    Sdot = (beta / Lamb) * S[0] * lifetimeCorrection - lamb * S[1]
     if S[1] < 0. and Sdot < 0.:
         return 0.
     else:
@@ -85,7 +91,7 @@ def intRodWorth(h1, h2):
     """
     Integral Control rod worth curve.
     """
-    scalingFac = 0.2 * 1.e-5 / beta
+    scalingFac = 0.85 * 1e-4 * beta
     integral = lambda h: (0.00175 / 4) * h ** 4 - (0.3675 / 3) * h ** 3 + (19.45 / 2) * h ** 2
     return (integral(h2) - integral(h1)) * scalingFac
 

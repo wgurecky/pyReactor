@@ -60,7 +60,7 @@ class CalcFrame(gui.MyFrame1):
         self.Bind(wx.EVT_TIMER, self.on_redraw_timer, self.redraw_timer)
         # Call reactor update and plot routines every 100 ms
         self.recalc_timer.Start(2)
-        self.redraw_timer.Start(400)
+        self.redraw_timer.Start(1000)
 
     def setInitConds(self):
         self.paused = False
@@ -97,6 +97,7 @@ class CalcFrame(gui.MyFrame1):
 
         self.axes1 = self.fig.add_subplot(211)
         self.axes2 = self.fig.add_subplot(212)
+        self.axes3 = self.axes2.twinx()
         self.axes1.set_axis_bgcolor('white')
         self.axes1.set_title('Reactor Power [MW] Trace', size=12)
 
@@ -113,21 +114,26 @@ class CalcFrame(gui.MyFrame1):
         # Plot the data
         xdata = np.array(np.array(range(plotMask)) / float(plotMask)) * self.legoReactor.maxTime * zoomPercentage
         pwrdata = qFuel(self.data[1][0, :][-plotMask:]) / 1.e6
-        fuelTdata = 1. - (1700 - self.data[1][2, :][-plotMask:]) / (1700. - 450.)
-        coolTdata = 1. - (700 - self.data[1][3, :][-plotMask:]) / (700. - 450.)
+        fuelTdata = self.data[1][2, :][-plotMask:]
+        coolTdata = self.data[1][3, :][-plotMask:]
         self.axes1.clear()
         self.axes2.clear()
-        self.axes1.set_title('Reactor Power [MW] Trace', size=12)
+        self.axes3.clear()
         self.axes1.set_ylim(0, 550.)
-        self.axes2.set_ylim(0., 1.)
+        self.axes2.set_ylim(400, 1700.)
+        self.axes3.set_ylim(400, 700.)
+        self.axes1.set_title('Reactor Power [MW] Trace', size=12)
         self.axes1.set_ylabel('Power [MW]')
-        self.axes1.set_xlabel(str(round(max(xdata), 0)) + ' - Lag Time [s]')
+        self.axes1.set_xlabel(str(round(max(xdata), 0)) + ' time [s]')
         self.axes1.plot(xdata, pwrdata, linewidth=2)
-        self.axes2.set_ylabel('Normalized Temperature')
+        self.axes2.set_ylabel('Fuel Temperature [K]')
+        self.axes3.set_ylabel('Coolant Temperature [K]')
         fuelPlot, = self.axes2.plot(xdata, fuelTdata, color='r', linewidth=2, label='Fuel T')
-        coolPlot, = self.axes2.plot(xdata, coolTdata, color='b', linewidth=2, label='Coolant T')
+        coolPlot, = self.axes3.plot(xdata, coolTdata, color='b', linewidth=2, label='Coolant T')
         handles, labels = self.axes2.get_legend_handles_labels()
         self.axes2.legend(handles, labels, loc=2)
+        handles, labels = self.axes3.get_legend_handles_labels()
+        self.axes3.legend(handles, labels, bbox_to_anchor=(0.402, 0.85))
         self.canvas.draw()
 
     #######################
@@ -185,14 +191,12 @@ class CalcFrame(gui.MyFrame1):
     def writeToArduino(self):
         """ write rod and power out to arduino if connected """
         if self.ser:
-            # rod % withdrawn ranges from 0 to 100
-            # Arduino likes values between 5 and 165 for some reason (rather
-            # than 0 to 180, seem to be hardware issue with my shitty servo!
-            rodWriteOut = abs((self.legoReactor.S[4] / 100.) * 180.)
+            # rod % withdrawn ranges stored in S[4] from 0 to 100
+            rodWriteOut = abs((self.legoReactor.S[4] / 100.) * 160.)
             if rodWriteOut < 5.0:
                 rodWriteOut = 5.0
-            elif rodWriteOut > 165.0:
-                rodWriteOut = 165.
+            elif rodWriteOut > 140.0:
+                rodWriteOut = 140.
             self.ser.write("r" + str(rodWriteOut))
             time.sleep(0.1)  # arduino needs time to adjust motor position
 
@@ -219,6 +223,7 @@ def initSerial():
         # Attempt conncection on multiple serial ports
         # regardless of OS
         try:
+            print("Attempting handshake with arduino attempt number: " + str(i + 1) + "...")
             if _platform == "linux" or _platform == "linux2":
                 print("Try /dev/ttyACM" + str(i) + "  :9600")
                 ser = serial.Serial('/dev/ttyACM' + str(i), 9600)
@@ -226,7 +231,6 @@ def initSerial():
             elif _platform == "windows" or _platform == "win32" or _platform == "win64":
                 ser = serial.Serial('COM' + str(i), 9600)
             time.sleep(3)
-            print("Attempting handshake with arduino attempt number: " + str(i + 1) + "...")
             #ser.write("r" + str(5))
             # print("Attempting to establish connection with arduino attempt number: " + str(i))
             # Perform handshake with arduino.  Ensure we don't connect to a

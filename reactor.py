@@ -67,11 +67,13 @@ class LegoReactor(object):
         """
         Check for conditions which require us to SCRAM
         """
-        if self.S[2] > 1800:
+        if self.S[2] > 1700:
             # Fuel temp scram (Temp in Kelvin)
+            print("Fuel Temperature SCRAM setpoint Exceeded")
             self.SCRAM()
         elif self.S[3] > 700:
             # Coolant temp scram
+            print("Coolant Temperature SCRAM setpoint Exceeded")
             self.SCRAM()
         else:
             pass
@@ -110,9 +112,9 @@ class LegoReactor(object):
 
     def __controlPID(self):
         maxRate = 1.  # maxumum rod movement rate in %/s
-        Kp = 0.00005   # Proportional tunable const
-        Ki = 0.0000005  # Intergral tunable const
-        Kd = 0.000001  # Derivitive tunable const
+        Kp = 0.000005   # Proportional tunable const
+        Ki = 0.0000004  # Intergral tunable const
+        Kd = 0.0000005  # Derivitive tunable const
         currentpwr = qFuel(self.S[0]) / 1.e6
         errorFn = self.pwrSet - qFuel(self.storVals[0, :]) / 1.e6
         errorIntegral = np.sum(errorFn[-100:])  # base integral error on past 100 values
