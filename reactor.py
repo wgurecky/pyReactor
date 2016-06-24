@@ -111,17 +111,17 @@ class LegoReactor(object):
         self.hrate = 0.0
 
     def __controlPID(self):
-        maxRate = 1.  # maxumum rod movement rate in %/s
-        Kp = 0.000005   # Proportional tunable const
-        Ki = 0.0000004  # Intergral tunable const
-        Kd = 0.0000005  # Derivitive tunable const
+        maxRate = 0.60  # maxumum rod movement rate in %/s
+        Kp = 0.0100000   # Proportional tunable const
+        Ki = 0.0001000  # Intergral tunable const
+        Kd = 0.0001000  # Derivitive tunable const
         currentpwr = qFuel(self.S[0]) / 1.e6
         errorFn = self.pwrSet - qFuel(self.storVals[0, :]) / 1.e6
         errorIntegral = np.sum(errorFn[-100:])  # base integral error on past 100 values
         errorDerivative = (errorFn[-1] - errorFn[-2]) / (self.tstep)
         if hasattr(self, 'pwrSet'):
             pidOut = self.pidBias + Kp * (self.pwrSet - currentpwr) + Ki * errorIntegral + Kd * errorDerivative
-            self.hrate += pidOut
+            self.hrate = pidOut
             if abs(self.hrate) > maxRate:
                 self.hrate = maxRate * (self.hrate / abs(self.hrate))
         else:
