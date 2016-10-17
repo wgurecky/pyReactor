@@ -4,12 +4,12 @@ Point kinetic reactor model with GUI frontend.
 
 ![screenshot](https://github.com/wgurecky/pyReactor/blob/master/simulator_screenshot.png)
 
-Interfaces with an Arduino driven Lego model (optional).
+Interfaces with an Arduino driven LEGO(R) model (optional).
 
 ![image](https://github.com/wgurecky/pyReactor/blob/master/lego_photo_sm.png)
 
 For use as a reactor demo for K-12 students.  This package was developed to inform young students about nuclear engineering.
-To this end, a Lego (R) reactor was constructed for use with the Arduino code.  Control rod movement and reactor power visual
+To this end, a LEGO(R) reactor was constructed for use with the Arduino code.  Control rod movement and reactor power visual
 feedbacks are presented to the audience via servo and LED control respectively.
 
 
@@ -56,4 +56,12 @@ Authors
 -------
 
 William Gurecky
+
 william.gurecky@gmail.com
+
+License
+-------
+
+Software included in the pyReactor project is distributed under the MIT license.
+You should have received a version of the MIT license with this software.  If not,
+please refer to ![opensource.org](https://opensource.org/licenses/MIT).

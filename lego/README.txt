@@ -1,8 +1,8 @@
-The XML file may be used on BrickLink.com to order the Lego Reactor pieces.
+The XML file may be used on BrickLink.com to order the LEGO(R) Reactor pieces.
 
 Estimated cost is $150.
 
-The Reactor_V5.LXF file can be opened by the Lego digital designer software.
+The Reactor_V5.LXF file can be opened by the LEGO(R) digital designer software.
 Download the lego digital designer free from: ldd.lego.com/en-us
 
 One can view and edit the reactor model there.

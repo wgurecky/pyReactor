@@ -12,7 +12,7 @@ setup(
     install_requires = ['numpy>=1.7.0', 'scipy>=0.12.0', 'matplotlib>=1.2.1', 'pyserial'],
     package_data = { '': ['*.txt'] },
     author = 'William Gurecky',
-    license = "BSD",
+    license = "MIT",
     author_email = "william.gurecky@gmail.com",
 
     # set primary console script up
