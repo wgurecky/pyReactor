@@ -64,4 +64,4 @@ License
 
 Software included in the pyReactor project is distributed under the MIT license.
 You should have received a version of the MIT license with this software.  If not,
-please refer to ![opensource.org](https://opensource.org/licenses/MIT).
+please refer to <https://opensource.org/licenses/MIT>.
