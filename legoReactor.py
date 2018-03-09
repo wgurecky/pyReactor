@@ -230,6 +230,9 @@ def initSerial():
                 print("...done. /dev/ttyACM" + str(i) + "  :9600")
             elif _platform == "windows" or _platform == "win32" or _platform == "win64":
                 ser = serial.Serial('COM' + str(i), 9600)
+            # Addition for macOS
+            elif _platform == "darwin":
+                ser = serial.Serial('/dev/cu.usbmodem14' + str(i+10), 9600)
             time.sleep(3)
             #ser.write("r" + str(5))
             # print("Attempting to establish connection with arduino attempt number: " + str(i))
