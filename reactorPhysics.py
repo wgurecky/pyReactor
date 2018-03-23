@@ -1,4 +1,5 @@
 #!/usr/bin/python
+from numba import jit
 
 # Contains reactor kenetics equations
 # and reactor parameters
@@ -23,6 +24,7 @@ alphaT = -0.007 * 1.e-5 / beta  # pcm / K / beta  reactivity per kelvin
 
 # Define all terms in list S[]
 
+@jit(nopython=True)
 def dndt(S, t, reactivity):
     """
     Time derivative of neutron population.
@@ -34,6 +36,7 @@ def dndt(S, t, reactivity):
         return ndot
 
 
+@jit(nopython=True)
 def dCdt(S, t):
     """
     Time derivative of delayed neutron precursor population.
@@ -50,6 +53,7 @@ def dCdt(S, t):
         return Sdot
 
 
+@jit(nopython=True)
 def qFuel(n):
     """
     Given neutron population return thermal power
@@ -57,6 +61,7 @@ def qFuel(n):
     return Vr * VfFuel * (n * v) * Sigma_f * Ef
 
 
+@jit(nopython=True)
 def dTfdt(S, t, mdotC):
     """
     Time derivative of fuel temperature
@@ -67,6 +72,7 @@ def dTfdt(S, t, mdotC):
     return (qFuel(S[0]) - Ac * h * (S[2] - S[3])) / (densityUO2 * VfFuel * Vr * CpUO2)
 
 
+@jit(nopython=True)
 def dTcdt(S, t, mdotC):
     """
     Time derivative of water coolant.
@@ -77,6 +83,7 @@ def dTcdt(S, t, mdotC):
     return (Ac * h * (S[2] - S[3]) + CpH2O * (Tin - S[3]) * mdotC) / (densityH2O * Vr * CpH2O)
 
 
+@jit(nopython=True)
 def diffRodWorth(h):
     """
     Differential Control rod worth curve.
@@ -87,6 +94,7 @@ def diffRodWorth(h):
     return (0.00175 * h ** 3 - 0.3675 * h ** 2 + 19.450 * h) * scalingFac
 
 
+@jit(nopython=True)
 def intRodWorth(h1, h2):
     """
     Integral Control rod worth curve.
@@ -96,6 +104,7 @@ def intRodWorth(h1, h2):
     return (integral(h2) - integral(h1)) * scalingFac
 
 
+@jit(nopython=True)
 def rho(S, t, hrate, deltaT):
     """
     Temperature and control rod reactivity.
@@ -105,6 +114,7 @@ def rho(S, t, hrate, deltaT):
     return alphaT * (S[2] - Tin) + intRodWorth(0., S[4])
 
 
+@jit
 def reactorSystem(S, t, hrate, deltaT, mdotC=1000.e3):
     reactivity = rho(S, t, hrate, deltaT)
     return [dndt(S, t, reactivity), dCdt(S, t),
