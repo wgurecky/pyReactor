@@ -13,6 +13,7 @@
 
 import time
 import sys
+from distutils.version import LooseVersion
 import numpy as np
 import wx
 import reactor as rct
@@ -98,7 +99,10 @@ class CalcFrame(gui.MyFrame1):
         self.axes1 = self.fig.add_subplot(211)
         self.axes2 = self.fig.add_subplot(212)
         self.axes3 = self.axes2.twinx()
-        self.axes1.set_facecolor('white')
+        if LooseVersion(matplotlib.__version__) >= LooseVersion('2.0.0'):
+            self.axes1.set_facecolor('white')
+        else:
+            self.axes1.set_axis_bgcolor('white')
         self.axes1.set_title('Reactor Power [MW] Trace', size=12)
 
         pylab.setp(self.axes1.get_xticklabels(), fontsize=8)

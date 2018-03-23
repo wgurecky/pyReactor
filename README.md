@@ -30,6 +30,7 @@ Requires
     matplotlib
     wxpython
     pyserial
+    distutils
 
 
 Usage
