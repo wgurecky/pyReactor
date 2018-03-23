@@ -27,7 +27,7 @@ class LegoReactor(object):
         self.scramToggle = False
         # For Storage/Plotting
         self.maxTime = 100.  # maximum time storage history [s]
-        dataStorLength = self.maxTime / self.tstep
+        dataStorLength = int(self.maxTime / self.tstep)
         self.time = np.zeros(dataStorLength)
         self.storVals = np.zeros((5, dataStorLength))
 
