@@ -42,7 +42,7 @@ The main ractor gui program is lauched using the command::
 
 The reactor may be used in power control mode, in which the reactor will attempt to maintain the user set power.
 In standard control rod based mode (pwr control toggle unchecked), the rod position may be set with a vertical slider.
-The rods move at a set, relaively slow pace.  The rod height is visualized by a vertical bar plot.
+The rods move at a set, relatively slow pace.  The rod height is visualized by a vertical bar plot.
 
 Temperature is plotted as a dimensionless distance to the SCRAM value.  This is done to display both the fuel and moderator
 temperature on the same plot.
@@ -57,8 +57,6 @@ Authors
 -------
 
 William Gurecky
-
-william.gurecky@gmail.com
 
 License
 -------
